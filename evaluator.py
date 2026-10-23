@@ -1,20 +1,21 @@
 
 def score_accuracy(response):
     text = response.lower()
-
-    # Detect the specific incorrect claim in our example.
-    if "at any time" in text and "after shipping" in text:
-        return 0
-
+    incorrect_claims=[ "cancel your order at any time",
+        "can cancel after shipping",
+        "cancel even after shipping" ]
+    for claim in incorrect_claims:
+        if claim in text:
+            return 0
     return 2
 
 
 def score_completeness(response):
     text = response.lower()
 
-    # A complete answer must explain the next step
-    # after the order has shipped.
-    if "return" in text and "after delivery" in text:
+    mentions_return = "return"
+    mentions_after_delivery = ("after delivery" in text or "once delivered" in text)
+    if mentions_return in text and mentions_after_delivery :
         return 2
 
     return 0

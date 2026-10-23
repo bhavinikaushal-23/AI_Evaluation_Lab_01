@@ -1,0 +1,31 @@
+
+[
+  {
+    "case_id": "ORDER-001",
+    "description": "Incorrect cancellation claim",
+    "response": "You can cancel your order at any time, even after shipping.",
+    "expected_accuracy": 0,
+    "expected_completeness": 0
+  },
+  {
+    "case_id": "ORDER-002",
+    "description": "Correct answer with next step",
+    "response": "You cannot cancel after shipping. Please request a return after delivery.",
+    "expected_accuracy": 2,
+    "expected_completeness": 2
+  },
+  {
+    "case_id": "ORDER-003",
+    "description": "Correct but incomplete answer",
+    "response": "You cannot cancel after shipping.",
+    "expected_accuracy": 2,
+    "expected_completeness": 0
+  },
+  {
+    "case_id": "ORDER-004",
+    "description": "Alternative correct wording",
+    "response": "Cancel before dispatch. Once delivered, ask for a return.",
+    "expected_accuracy": 2,
+    "expected_completeness": 2
+  }
+]

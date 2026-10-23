@@ -1,12 +1,35 @@
+import json
 from evaluator import evaluate_response
 
-ai_response= "You can cancel your order at any time, even after shipping."
+with open("test_cases.json","r",encoding="utf-8") as file:
+    test_cases=json.load(file)
 
-reference_policy=("Orders can be cancelled before shipping. "
-                "After shipping, the customer must request a return after delivery.")
+    passed=0
+    failed=0
 
-print("AI Response : ",ai_response)
-print("Reference policy:", reference_policy)
+    for case in test_cases:
+        case_id=case["case_id"]
+        response=case["response"]
+        expected_accuracy=case["expected_accuracy"]
+        expected_completeness=case["expected_completeness"]
+        result = evaluate_response(response)
+        accuracy_matches=(result["factual_accuracy"]==expected_accuracy)
+        completeness_matches=(result["completeness"]==expected_completeness)
 
-RESULT=evaluate_response(ai_response)
-print("Evaluation Result= ",RESULT)
+        test_passed=accuracy_matches and completeness_matches
+        if test_passed:
+            passed+=1
+        else:
+            failed+=1
+
+        print(f"\n TEST_CASE:{case_id}")
+        print(f"Description : {case["description"]}")
+        print(f"Actual Scores: {result}")
+        print(f"Expected Accuracy: {expected_accuracy},"
+              f"Expected Completeness:{expected_completeness}")
+        print("Result: ","PASS" if test_passed else "FAIL")
+
+    print("\n============EVALUATION SUMMARY ============")
+    print(f"Total cases:{len(test_cases)}")
+    print(f"Passed :{passed}")
+    print(f"Failed:{failed} \n_________________________________________________________________")
